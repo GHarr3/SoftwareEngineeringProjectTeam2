@@ -1,0 +1,4 @@
+com/gamemaster/udp/UdpManager.class
+com/gamemaster/controller/ControllerMaster.class
+com/gamemaster/database/Database.class
+com/gamemaster/BackendApplication.class

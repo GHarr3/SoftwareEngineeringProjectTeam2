@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Photon - Entry Terminal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!--splash screen - shows for 3 seconds & click to skip-->
+  <div id="splash" class="screen splash">
+    <div class="splash-card">
+      <div class="splash-logo">
+        <!--put prof Strothers logo file here later or find new one-->
+        <img id="logoImg" src="../assets/logo.png" alt="Photon Logo" onerror="this.style.display='none';" />
+        <!--<div id="logoFallback">PHOTON</div>-->
+      </div>
+
+      <div class="splash-sub">initializing…</div>
+      <button id="skipSplash" class="btn">click to skip</button>
+    </div>
+  </div>
+
+  <!--my player entry screen-->
+  <div id="entry" class="screen entry hidden">
+    <div class="titlebar">Entry Terminal</div>
+    <div class="header">Edit Current Game</div>
+
+    <div class="board">
+      <div class="team red">
+        <div class="team-label">RED TEAM</div>
+        <div class="grid" id="redGrid"></div>
+      </div>
+
+      <div class="team green">
+        <div class="team-label">GREEN TEAM</div>
+        <div class="grid" id="greenGrid"></div>
+      </div>
+    </div>
+
+    <div class="mode">Game Mode: Standard public mode</div>
+
+    <div class="footer">
+      <div class="fkey-row">
+        <div class="fkey"><div class="fnum">F1</div><div class="ftext">Start<br/>Game</div></div>
+        <div class="fkey"><div class="fnum">F2</div><div class="ftext">Game<br/>Parameters</div></div>
+        <div class="fkey primary" id="InsertBtn"><div class="fnum">F3</div><div class="ftext">Insert<br/>Players</div></div>
+      </div>
+      
+      <div class="fkey-row">
+        <div class="fkey"><div class="fnum">F5</div><div class="ftext">Preentered<br/>Games</div></div>
+        <div class="fkey primary" id="addressChngBtn"><div class="fnum">F7</div><div class="ftext">New<br>Address</div></div>
+        <div class="fkey"><div class="fnum">F8</div><div class="ftext">View<br/>Game</div></div>
+      </div>
+
+      <div class="fkey-row">
+        <div class="fkey"><div class="fnum">F10</div><div class="ftext">Flick<br/>Sync</div></div>
+        <div class="fkey danger" id="clearBtn"><div class="fnum">F12</div><div class="ftext">Clear<br/>Players</div></div>
+      </div>
+
+      <!--div class="hint">&lt;Del&gt; to Delete Player, &lt;Ins&gt; to Manually Insert, or edit codename</div-->
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
