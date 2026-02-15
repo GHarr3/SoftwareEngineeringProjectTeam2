@@ -17,7 +17,7 @@ New Address:
 Replaces the default Address 127.0.0.1 with whatever valid address you want, and prints current(new) address on 1st Terminal Window
 Clear Players:
 Clears all current players on the board from it and deletes them from the Database, also prints the database afterwards
-
+----IMPORTANT------------
 If you decide to stop SpringBoot, the program on your first window, make sure to kill it. Run these commands:
 ps aux | grep java
 To see the PID, should be first line that pops up, first num
@@ -31,3 +31,11 @@ Then run:
 kill PID //PID is your, well PID
 
 Then Run program again for further testing, if wanting
+
+--TABLE-----------------
+Cooper-H1 -> Cooper Hartman
+fernandonavarrete0707-hub -> Fernando Navarrete (Me!)
+berteljoey3-create -> Joseph Bertel
+GHarr3 -> Gus Harr
+
+
