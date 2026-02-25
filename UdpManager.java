@@ -1,39 +1,57 @@
+
+package com.gamemaster.udp;
 import java.io.IOException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UdpManager {
     private final DatagramSocket sendSocket;
     private final DatagramSocket recvSocket;
+    private final DatagramSocket recvSocket7500;
 
     private InetAddress networkAddress;
 
     private final int broadcastPort = 7500;
     private final int receivePort = 7501;
+    
 
-
-    public UdpManager(String initialNetworkAddress) throws SocketException, UnknownHostException {
+        //Changed Constructor have no parameters and automatically initialize to default network
+    public UdpManager() throws SocketException, UnknownHostException {
         // set initial network address
+        String initialNetworkAddress = "127.0.0.1";
         this.networkAddress = InetAddress.getByName(initialNetworkAddress);
 
-        // sender (to 7500)
-        // to enable broadcast
         this.sendSocket = new DatagramSocket();
         this.sendSocket.setBroadcast(true);
 
-        // receiver (from any IP on 7501)
-        // to enable recieving 
+        // 7500 for broadcasting messages to the network
+        this.recvSocket7500 = new DatagramSocket(null);
+        this.recvSocket7500.setReuseAddress(true);
+        this.recvSocket7500.bind(new InetSocketAddress("0.0.0.0", broadcastPort)); 
+
+        // 7501 for receiving player IDs from the network
         this.recvSocket = new DatagramSocket(null);
         this.recvSocket.setReuseAddress(true);
-
-        // 0.0.0.0 ip binds to all interfaces
         this.recvSocket.bind(new InetSocketAddress("0.0.0.0", receivePort));
+
     }
+
+    public InetAddress getNetworkAddress()
+    {
+
+        return this.networkAddress;
+
+    }
+
+
 
     // set the network address to send broadcasts to
     public synchronized void setNetworkAddress(String addr) throws UnknownHostException {
         this.networkAddress = InetAddress.getByName(addr);
+        
     }
 
     // broadcast an integer code to the network address on port 7500
@@ -52,41 +70,33 @@ public class UdpManager {
         sendSocket.send(p);
     }
 
-    // start a loop to receive packets on port 7501
-    // to use this, (msg -> { ... }) is passed as onMessage parameter
     public void startReceiverLoop(Consumer<String> onMessage) {
-        // start a new thread for receiving packets
+        startLoop(recvSocket, "udp-receiver-7501", onMessage);
+        startLoop(recvSocket7500, "udp-receiver-7500", onMessage);
+    }
+
+    private void startLoop(DatagramSocket socket, String name, Consumer<String> onMessage) {
         Thread t = new Thread(() -> {
-            // buffer for receiving packets
             byte[] buf = new byte[1024];
-            while (!recvSocket.isClosed()) 
-            {
+            while (!socket.isClosed()) {
                 try {
                     DatagramPacket p = new DatagramPacket(buf, buf.length);
-                    recvSocket.receive(p);
-
-                    //get message 
+                    socket.receive(p);
                     String msg = new String(p.getData(), p.getOffset(), p.getLength(), StandardCharsets.UTF_8).trim();
-
-                    // this uses java.util.function.Consumer 
                     onMessage.accept(msg);
                 } catch (IOException e) {
-                    // ignore exceptions if socket is closed
-                    if (!recvSocket.isClosed()) e.printStackTrace();
+                    if (!socket.isClosed()) e.printStackTrace();
                 }
             }
-        }, "udp-receiver-7501");
-
-        // make daemon so it doesn't block JVM exit
+        }, name);
         t.setDaemon(true);
-
-        // start the loop
         t.start();
     }
 
     // close sockets 
     public void close() {
         recvSocket.close();
+        recvSocket7500.close();
         sendSocket.close();
     }
 }
