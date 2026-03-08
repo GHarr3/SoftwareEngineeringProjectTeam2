@@ -63,6 +63,31 @@
     </div>
   </div>
 
+  <div id="play" class="screen entry hidden">
+    <div class="titlebar">Play Action Display</div>
+    <div class="header">Game In Progress</div>
+
+    <div class="mode" style="font-size:22px;font-weight:700;">
+      Countdown Timer: <span id="countdownTimer">30</span>
+    </div>
+
+    <div class="board">
+      <div class="team red">
+        <div class="team-label">RED TEAM</div>
+        <div id="redPlayList" style="min-height:420px;"></div>
+      </div>
+
+      <div class="team green">
+        <div class="team-label">GREEN TEAM</div>
+        <div id="greenPlayList" style="min-height:420px;"></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="hint">Press F1 to return to player entry screen</div>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
