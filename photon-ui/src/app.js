@@ -39,6 +39,16 @@ function showEntry() {
   document.getElementById("entry").classList.remove("hidden");
 }
 
+function clearPlayers() {
+  for (let i = 0; i < 15; i++) {
+      document.getElementById(`red_pid_${i}`).value = "";
+      document.getElementById(`red_code_${i}`).value = "";
+      document.getElementById(`green_pid_${i}`).value = "";
+      document.getElementById(`green_code_${i}`).value = "";
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   //building grids to be similar to the layout in the slides
   buildTeamGrid("redGrid", "red");
@@ -52,28 +62,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //clear game button
   document.getElementById("clearBtn").addEventListener("click", () => {
-    for (let i = 0; i < 15; i++) {
-      document.getElementById(`red_pid_${i}`).value = "";
-      document.getElementById(`red_code_${i}`).value = "";
-      document.getElementById(`green_pid_${i}`).value = "";
-      document.getElementById(`green_code_${i}`).value = "";
-    }
+    clearPlayers();
   });
 
   //f3 start game is a placeholder click for now
   document.getElementById("startBtn").addEventListener("click", () => {
-    alert("start game (ui placeholder)");
+    showPlayActionDisplay();
   });
 
   //i madethe keyboard shortcuts similar to what prof Strother had in his slides
   document.addEventListener("keydown", (e) => {
     if (e.key === "F12") {
       e.preventDefault();
-      document.getElementById("clearBtn").click();
+      clearPlayers();
     }
     if (e.key === "F3") {
       e.preventDefault();
-      document.getElementById("startBtn").click();
+      showPlayActionDisplay();
     }
   });
 });
@@ -163,10 +168,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }, true);
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "F5") {
+    //the instructions say "F5 or equivalent" should run the play action display
+    //and our UI shows F3 being the start game key
+    //F5 is assigned to "preentered games", so I commented this off for now to be set up when we have a preentered games feature
+    /*if (e.key === "F5") {
       e.preventDefault();
       showPlayActionDisplay();
-    }
+    }*/
 
     if (e.key === "F1" && !document.getElementById("play").classList.contains("hidden")) {
       e.preventDefault();
