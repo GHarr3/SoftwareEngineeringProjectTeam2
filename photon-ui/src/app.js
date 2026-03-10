@@ -65,20 +65,30 @@ document.addEventListener("DOMContentLoaded", () => {
     clearPlayers();
   });
 
-  //f3 start game is a placeholder click for now
+  //f3 start game opens the play action display
   document.getElementById("startBtn").addEventListener("click", () => {
+    e.stopImmediatePropagation();
     showPlayActionDisplay();
   });
 
-  //i madethe keyboard shortcuts similar to what prof Strother had in his slides
+  //i made the keyboard shortcuts similar to what prof Strother had in his slides
   document.addEventListener("keydown", (e) => {
     if (e.key === "F12") {
       e.preventDefault();
       clearPlayers();
-    }
-    if (e.key === "F3") {
+    } 
+    else if (e.key === "F3") {
+      e.stopImmediatePropagation();
       e.preventDefault();
       showPlayActionDisplay();
+    } 
+    else if (e.key === "F1" && !document.getElementById("play").classList.contains("hidden")) {
+      e.preventDefault();
+      if (window.photonCountdown) {
+        clearInterval(window.photonCountdown);
+      }
+      document.getElementById("play").classList.add("hidden");
+      document.getElementById("entry").classList.remove("hidden");
     }
   });
 });
@@ -157,32 +167,3 @@ function showPlayActionDisplay() {
     }
   }, 1000);
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const startBtn = document.getElementById("startBtn");
-
-  startBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    showPlayActionDisplay();
-  }, true);
-
-  document.addEventListener("keydown", (e) => {
-    //the instructions say "F5 or equivalent" should run the play action display
-    //and our UI shows F3 being the start game key
-    //F5 is assigned to "preentered games", so I commented this off for now to be set up when we have a preentered games feature
-    /*if (e.key === "F5") {
-      e.preventDefault();
-      showPlayActionDisplay();
-    }*/
-
-    if (e.key === "F1" && !document.getElementById("play").classList.contains("hidden")) {
-      e.preventDefault();
-      if (window.photonCountdown) {
-        clearInterval(window.photonCountdown);
-      }
-      document.getElementById("play").classList.add("hidden");
-      document.getElementById("entry").classList.remove("hidden");
-    }
-  }, true);
-});
